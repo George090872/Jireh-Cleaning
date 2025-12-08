@@ -25,10 +25,11 @@
                 <img src="logo.png" alt="Jireh Cleaning Logo">
             </a>
             <ul class="nav-links">
-                <li><a href="#home">Home</a></li>
                 <li><a href="#services">Services</a></li>
                 <li><a href="#gallery">Previous Cleans</a></li>
                 <li><a href="#about">About</a></li>
+                <li><a href="portal.html" class="btn-secondary" style="padding: 8px 15px; font-size: 0.9rem;">Client
+                        Login</a></li>
                 <li><a href="#contact" class="btn-primary-small">Get a Quote</a></li>
             </ul>
             <div class="hamburger">
@@ -257,6 +258,25 @@
                         </div>
                     </div>
 
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="cleanliness">Current Cleanliness (1-5)</label>
+                            <div class="range-container">
+                                <input type="range" id="cleanliness" name="cleanliness" min="1" max="5" value="3"
+                                    oninput="document.getElementById('cleanlinessVal').innerText = this.value">
+                                <span id="cleanlinessVal" style="font-weight:bold; color:var(--primary-color);">3</span>
+                                <div class="range-labels"
+                                    style="display:flex; justify-content:space-between; font-size:0.8rem; color:#666;">
+                                    <span>Dirty</span><span>Clean</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="images">Upload Images (Optional)</label>
+                            <input type="file" id="images" name="attachment" multiple accept="image/*">
+                        </div>
+                    </div>
+
                     <div class="form-group">
                         <label for="notes">Additional Notes</label>
                         <textarea id="notes" name="notes" rows="3"
@@ -275,8 +295,8 @@
         <div class="container footer-content">
             <p>&copy; 2025 Jireh Cleaning. All rights reserved.</p>
             <div class="social-links">
-                <a href="#"><i class="fab fa-facebook"></i></a>
-                <a href="https://www.facebook.com/profile.php?id=61584528872324"><i class="fab fa-instagram"></i></a>
+                <a href="https://www.facebook.com/profile.php?id=61584528872324" target="_blank"><i
+                        class="fab fa-facebook"></i></a>
             </div>
         </div>
     </footer>
