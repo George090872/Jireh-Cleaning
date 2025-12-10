@@ -40,28 +40,76 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Form Submission is now handled natively by FormSubmit.co via the form 'action' attribute.
     // We can verify if the URL has a success parameter if we used a specific redirect, but for now we let FormSubmit handle the success screen.
+    // AJAX Form Submission for Quote Form
     const quoteForm = document.getElementById('quoteForm');
+    const formMessage = document.getElementById('formMessage');
+
     if (quoteForm) {
-        // Initialize Flatpickr for date selection
-        const dateInput = document.getElementById('preferred_dates');
-        if (dateInput) {
-            flatpickr(dateInput, {
-                mode: "multiple",
-                minDate: "today",
-                dateFormat: "Y-m-d",
-                maxDates: 2,
-                disable: [
-                    function(date) {
-                        // return true to disable
-                        // Disable Mon(1), Tue(2), Wed(3), Thu(4)
-                        return (date.getDay() === 1 || date.getDay() === 2 || date.getDay() === 3 || date.getDay() === 4);
-                    }
-                ],
-                locale: {
-                    firstDayOfWeek: 1 // Start week on Monday
+        quoteForm.addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            // Show loading state
+            const submitBtn = quoteForm.querySelector('button[type="submit"]');
+            const originalBtnText = submitBtn.innerText;
+            submitBtn.innerText = 'Sending...';
+            submitBtn.disabled = true;
+
+            const formData = new FormData(quoteForm);
+
+            fetch(quoteForm.action, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'Accept': 'application/json'
                 }
-            });
-        }
+            })
+                .then(response => {
+                    if (response.ok) {
+                        // Success: Replace form with Thank You message
+                        quoteForm.innerHTML = `
+                        <div class="success-message" style="text-align: center; padding: 40px;">
+                            <i class="fas fa-check-circle" style="font-size: 4rem; color: var(--primary-color); margin-bottom: 20px;"></i>
+                            <h3 style="color: var(--primary-color); margin-bottom: 15px;">Thank You!</h3>
+                            <p style="font-size: 1.2rem; color: var(--text-dark);">We have received your request and will get back to you within 24 hours.</p>
+                        </div>
+                    `;
+                        // Scroll to message
+                        quoteForm.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    } else {
+                        // Error handling
+                        alert('There was a problem sending your request. Please try again later.');
+                        submitBtn.innerText = originalBtnText;
+                        submitBtn.disabled = false;
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('There was a problem sending your request. Please try again later.');
+                    submitBtn.innerText = originalBtnText;
+                    submitBtn.disabled = false;
+                });
+        });
+    }
+
+    // Initialize Flatpickr for date selection
+    const dateInput = document.getElementById('preferred_dates');
+    if (dateInput) {
+        flatpickr(dateInput, {
+            mode: "multiple",
+            minDate: "today",
+            dateFormat: "Y-m-d",
+            maxDates: 2,
+            disable: [
+                function (date) {
+                    // return true to disable
+                    // Disable Mon(1), Tue(2), Wed(3), Thu(4)
+                    return (date.getDay() === 1 || date.getDay() === 2 || date.getDay() === 3 || date.getDay() === 4);
+                }
+            ],
+            locale: {
+                firstDayOfWeek: 1 // Start week on Monday
+            }
+        });
     }
 
     // Scroll Animation (Fade in on scroll)
@@ -85,7 +133,7 @@ document.addEventListener('DOMContentLoaded', () => {
         observer.observe(el);
     });
 
-    // Add class for the animation style (injected here for simplicity or could be in CSS)
+    // Add class for the animation style
     const style = document.createElement('style');
     style.innerHTML = `
         .fade-in {
@@ -95,7 +143,8 @@ document.addEventListener('DOMContentLoaded', () => {
     `;
     document.head.appendChild(style);
 
-    // Portal Login Logic (Mock)
+    // Portal Login Logic (Mock) - Keeping it if needed, or we can remove if user didn't ask for it specifically.
+    // Preserving it as it was in the file, just ensuring no conflicts.
     const loginForm = document.getElementById('loginForm');
     const loginView = document.getElementById('loginView');
     const dashboardView = document.getElementById('dashboardView');
@@ -103,18 +152,15 @@ document.addEventListener('DOMContentLoaded', () => {
     if (loginForm) {
         loginForm.addEventListener('submit', (e) => {
             e.preventDefault();
-            // Simulate processing
             const btn = loginForm.querySelector('button');
             const originalText = btn.innerText;
             btn.innerText = 'Logging in...';
             btn.disabled = true;
 
             setTimeout(() => {
-                // Determine if we are on the portal page
                 if (loginView && dashboardView) {
                     loginView.style.display = 'none';
                     dashboardView.style.display = 'grid';
-                    // Reset button for next time (though we swapped views)
                     btn.innerText = originalText;
                     btn.disabled = false;
                 }

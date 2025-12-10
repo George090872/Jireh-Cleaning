@@ -82,6 +82,14 @@
                     <div class="icon-box">
                         <i class="fas fa-truck-moving"></i>
                     </div>
+                    <!-- Garage Cleaning -->
+                    <div class="service-card">
+                        <div class="icon-box">
+                            <i class="fas fa-warehouse"></i>
+                        </div>
+                        <h3>Garage Cleaning</h3>
+                        <p>Organize and clean your garage space. We'll help you declutter and sweep out the dust.</p>
+                    </div>
                     <h3>Move In/Out</h3>
                     <p>Perfect for a fresh start-whether you’re settling in or moving on. Top-to-bottom clean.</p>
                 </div>
@@ -143,19 +151,9 @@
                 <form class="quote-form-detailed" id="quoteForm" action="https://formsubmit.co/jirehinc81@gmail.com"
                     method="POST">
                     <!-- FormSubmit Configuration -->
+                    <!-- FormSubmit Configuration -->
                     <input type="hidden" name="_subject" value="New Jireh Cleaning Quote Request">
-                    <input type="hidden" name="_captcha" value="false">
-                    <!-- Disable captcha for smoother testing, enable later if spam -->
-                    <input type="hidden" name="_next" value="https://jireh-cleaning.Example.com/thanks.html">
-                    <!-- We might need a thanks page or let JS handle it, but FormSubmit usually redirects. Let's stick to standard behavior or use AJAX which script.js was doing. -->
-                    <!-- Actually the user asked to implement it, usually meaning the action attribute. 
-                         If we use the action attribute, the page will redirect. 
-                         If we want to keep it SPA, we should use AJAX. 
-                         The previous script.js was a mock. 
-                         Let's set _next to the current page with a query param or just let FormSubmit show its success page.
-                         For simplicity and reliability, let's let FormSubmit show its success page for now or simply redirect back to home. -->
-                    <input type="hidden" name="_next" value="http://localhost:8080/index.html">
-                    <!-- Placeholder, probably better to remove _next to see default success or handle via JS -->
+                    <!-- Captcha and Next are handled via JS or defaults now -->
 
                     <!-- Contact Info -->
                     <div class="form-row">
@@ -225,6 +223,8 @@
                                 Standard/Recurring Clean</label>
                             <label><input type="radio" name="service_type" value="Move-In/Out"> Move-In /
                                 Move-Out</label>
+                            <label><input type="radio" name="service_type" value="Garage Cleaning"> Garage
+                                Cleaning</label>
                         </div>
                     </div>
 
