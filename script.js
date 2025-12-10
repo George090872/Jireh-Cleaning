@@ -42,7 +42,26 @@ document.addEventListener('DOMContentLoaded', () => {
     // We can verify if the URL has a success parameter if we used a specific redirect, but for now we let FormSubmit handle the success screen.
     const quoteForm = document.getElementById('quoteForm');
     if (quoteForm) {
-        // Optional: Client-side validation or enhancements could go here.
+        // Initialize Flatpickr for date selection
+        const dateInput = document.getElementById('preferred_dates');
+        if (dateInput) {
+            flatpickr(dateInput, {
+                mode: "multiple",
+                minDate: "today",
+                dateFormat: "Y-m-d",
+                maxDates: 2,
+                disable: [
+                    function(date) {
+                        // return true to disable
+                        // Disable Mon(1), Tue(2), Wed(3), Thu(4)
+                        return (date.getDay() === 1 || date.getDay() === 2 || date.getDay() === 3 || date.getDay() === 4);
+                    }
+                ],
+                locale: {
+                    firstDayOfWeek: 1 // Start week on Monday
+                }
+            });
+        }
     }
 
     // Scroll Animation (Fade in on scroll)

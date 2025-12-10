@@ -15,6 +15,9 @@
     <!-- Font Awesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+</head>
 
 <body>
 
@@ -233,6 +236,15 @@
                             <label><input type="radio" name="frequency" value="Bi-weekly"> Bi-weekly</label>
                             <label><input type="radio" name="frequency" value="Monthly"> Monthly</label>
                         </div>
+                    </div>
+
+                    <!-- Date Selection -->
+                    <div class="form-group">
+                        <label for="preferred_dates">Preferred Dates (Select 2) <span class="required">*</span></label>
+                        <input type="text" id="preferred_dates" name="preferred_dates" class="form-control"
+                            placeholder="Select 2 available dates..." required style="background-color: white;">
+                        <small style="color: #666; display: block; margin-top: 5px;">* Only Friday, Saturday, and Sunday
+                            are available.</small>
                     </div>
 
                     <!-- Add-ons -->
