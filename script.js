@@ -75,4 +75,31 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     `;
     document.head.appendChild(style);
+
+    // Portal Login Logic (Mock)
+    const loginForm = document.getElementById('loginForm');
+    const loginView = document.getElementById('loginView');
+    const dashboardView = document.getElementById('dashboardView');
+
+    if (loginForm) {
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            // Simulate processing
+            const btn = loginForm.querySelector('button');
+            const originalText = btn.innerText;
+            btn.innerText = 'Logging in...';
+            btn.disabled = true;
+
+            setTimeout(() => {
+                // Determine if we are on the portal page
+                if (loginView && dashboardView) {
+                    loginView.style.display = 'none';
+                    dashboardView.style.display = 'grid';
+                    // Reset button for next time (though we swapped views)
+                    btn.innerText = originalText;
+                    btn.disabled = false;
+                }
+            }, 1000);
+        });
+    }
 });
