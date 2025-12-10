@@ -350,6 +350,13 @@ h3 {
     outline: none;
 }
 
+/* Form Required Asterisk */
+.required {
+    color: #dc3545;
+    /* Red color for asterisk */
+    margin-left: 4px;
+}
+
 /* Detailed Form Styling */
 .quote-form-detailed {
     background: var(--white);
