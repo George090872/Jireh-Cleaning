@@ -206,34 +206,117 @@ emailSignupBtn.addEventListener("click", async () => {
 
 // --- Auth State Listener ---
 
+// Name Modal Elements
+const nameModal = document.getElementById("nameModal");
+const profileNameInput = document.getElementById("profile-name-input");
+const saveNameBtn = document.getElementById("save-name-btn");
+
+// Handle Name Saving
+if (saveNameBtn) {
+    saveNameBtn.addEventListener("click", async () => {
+        const name = profileNameInput.value;
+        if (!name) {
+            alert("Please enter your name.");
+            return;
+        }
+
+        const user = auth.currentUser;
+        if (user) {
+            try {
+                await updateProfile(user, {
+                    displayName: name
+                });
+
+                // Close modal and update UI
+                nameModal.style.display = "none";
+                document.getElementById("user-name").textContent = name;
+
+                // Refresh dashboard logic (optional, but good practice)
+                window.dispatchEvent(new CustomEvent('auth-state-changed', { detail: { user: user } }));
+
+            } catch (error) {
+                console.error("Error saving name:", error);
+                alert("Error saving name. Please try again.");
+            }
+        }
+    });
+}
+
 onAuthStateChanged(auth, (user) => {
     const dashboardSection = document.getElementById("dashboard");
     const userNameSpan = document.getElementById("user-name");
     const navLoginLink = document.querySelector('a[href="portal.html"]');
 
+    // Landing Page Sections to hide
+    const heroSection = document.querySelector(".hero");
+    const servicesSection = document.getElementById("services");
+    const gallerySection = document.getElementById("gallery");
+    const aboutSection = document.getElementById("about");
+    const contactSection = document.getElementById("contact");
+
     if (user) {
         // User is signed in.
+
+        // Hide Landing Page
+        if (heroSection) heroSection.style.display = "none";
+        if (servicesSection) servicesSection.style.display = "none";
+        if (gallerySection) gallerySection.style.display = "none";
+        if (aboutSection) aboutSection.style.display = "none";
+        if (contactSection) contactSection.style.display = "none";
+
+        // Show Dashboard
         dashboardSection.style.display = "block";
-        userNameSpan.textContent = user.displayName || user.phoneNumber || "Client";
+        window.scrollTo(0, 0); // Scroll to top
+
+        // Name Logic
+        if (user.displayName) {
+            userNameSpan.textContent = user.displayName;
+        } else {
+            userNameSpan.textContent = user.phoneNumber || "Client";
+            // Show Name Modal if no display name (e.g. first time phone login)
+            if (nameModal) nameModal.style.display = "block";
+        }
 
         if (navLoginLink) {
             navLoginLink.textContent = "My Dashboard";
-            navLoginLink.href = "#dashboard"; // Jump to dashboard
+            navLoginLink.href = "#dashboard";
             navLoginLink.classList.add("btn-primary");
             navLoginLink.classList.remove("btn-secondary");
+            // Remove click listener that opens auth modal if it was added dynamically? 
+            // In original code, the listener checks `if (!user)`. So it will verify `user` exists and do the else block (scroll to dashboard).
+            // But since dashboard is now the ONLY thing visible, the link acts more like a "Home" or "Refresh".
         }
 
-        // Trigger dashboard data load (dispatched to dashboard.js via event or direct call logic if shared)
-        // Since modules are separate, we can emit a custom event
+        // Trigger dashboard data load
         window.dispatchEvent(new CustomEvent('auth-state-changed', { detail: { user: user } }));
 
     } else {
         // User is signed out.
+
+        // Show Landing Page
+        if (heroSection) heroSection.style.display = "block"; // or flex depending on css? Hero usually block/flex
+        if (servicesSection) servicesSection.style.display = "block";
+        if (gallerySection) gallerySection.style.display = "block";
+        if (aboutSection) aboutSection.style.display = "block";
+        if (contactSection) contactSection.style.display = "block"; // or whatever original display was
+
+        // Restore Hero display if it was flex (Check CSS logic potentially, but block usually works for sections unless flex container)
+        // Actually .hero might be flex. Let's assume block is safe or check CSS if issues.
+        // If the css defined display:flex for .hero, inline style="display:block" might break layout.
+        // Safer to set style.display = "" to revert to CSS file rule.
+        if (heroSection) heroSection.style.display = "";
+        if (servicesSection) servicesSection.style.display = "";
+        if (gallerySection) gallerySection.style.display = "";
+        if (aboutSection) aboutSection.style.display = "";
+        if (contactSection) contactSection.style.display = "";
+
+
         dashboardSection.style.display = "none";
+        if (nameModal) nameModal.style.display = "none";
 
         if (navLoginLink) {
             navLoginLink.textContent = "Client Login";
-            navLoginLink.href = "portal.html"; // We keep it as is, preventing default via JS
+            navLoginLink.href = "portal.html";
             navLoginLink.classList.add("btn-secondary");
             navLoginLink.classList.remove("btn-primary");
         }
