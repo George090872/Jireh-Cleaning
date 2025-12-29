@@ -104,9 +104,11 @@ async function cancelAppointment(id) {
 // Form Submission Logic removed as we are now using Tally Embed which handles its own submission.
 // New appointments will not automatically sync to dashboard in this version.
 
-// Schedule Button Scroll
+// Schedule Button Scroll - Removed as Tally Popup handles it via data attributes.
+/*
 if (scheduleBtn) {
     scheduleBtn.addEventListener("click", () => {
         document.getElementById("contact").scrollIntoView({ behavior: "smooth" });
     });
 }
+*/
