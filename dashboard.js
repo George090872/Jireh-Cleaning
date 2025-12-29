@@ -10,16 +10,6 @@ window.addEventListener('auth-state-changed', async (e) => {
     const user = e.detail.user;
     if (user) {
         await loadAppointments(user);
-        // Pre-fill form
-        if (quoteForm) {
-            const nameInput = document.getElementById("name");
-            const emailInput = document.getElementById("email");
-            const phoneInput = document.getElementById("phone");
-
-            if (user.displayName) nameInput.value = user.displayName;
-            if (user.email) emailInput.value = user.email;
-            if (user.phoneNumber) phoneInput.value = user.phoneNumber;
-        }
     }
 });
 
@@ -111,64 +101,8 @@ async function cancelAppointment(id) {
     }
 }
 
-// Intercept Form Submission to Save to Firestore
-if (quoteForm) {
-    quoteForm.addEventListener("submit", async (e) => {
-        // We want to allow the FormSubmit to happen, OR we handle it entirely via Firestore.
-        // User asked for "FormSubmit" replacement previously, but now we have a dashboard.
-        // Ideally we do BOTH: Send email via FormSubmit AND save to Firestore.
-        // But FormSubmit redirects.
-
-        // Strategy: AJAX submit to FormSubmit, THEN save to Firestore, THEN show success.
-        e.preventDefault();
-
-        const user = auth.currentUser;
-        if (!user) {
-            // accessible to non-logged in users too? user request implied "once logged in, they can schedule".
-            // If they are logged in, we save.
-            alert("Please login to schedule and track your appointment.");
-            // Or just submit normally if we allow guests? 
-            // Let's assume for now we just submit normally if not logged in.
-            e.target.submit();
-            return;
-        }
-
-        const formData = new FormData(quoteForm);
-        const data = Object.fromEntries(formData.entries());
-
-        // Parse dates from "preferred_dates" (e.g. "2023-10-27, 2023-10-30")
-        // We'll just take the first one as the "date" for sorting
-        const dates = data.preferred_dates ? data.preferred_dates.split(",") : [];
-        const mainDate = dates[0] ? dates[0].trim() : new Date().toISOString();
-
-        const appointmentData = {
-            userId: user.uid,
-            userName: data.name,
-            userEmail: data.email,
-            userPhone: data.phone,
-            serviceType: data.service_type,
-            frequency: data.frequency,
-            date: mainDate,
-            details: data,
-            status: "Requested",
-            createdAt: new Date().toISOString()
-        };
-
-        try {
-            // Save to Firestore
-            await addDoc(collection(db, "appointments"), appointmentData);
-
-            // Now submit the form to FormSubmit (or simulate it)
-            // Since we prevented default, we can just submit() now, but that might re-trigger listener?
-            // Actually, HTMLFormElement.submit() does NOT trigger 'submit' event.
-            quoteForm.submit();
-
-        } catch (error) {
-            console.error("Error saving appointment:", error);
-            alert("Error scheduling appointment. Please try again.");
-        }
-    });
-}
+// Form Submission Logic removed as we are now using Tally Embed which handles its own submission.
+// New appointments will not automatically sync to dashboard in this version.
 
 // Schedule Button Scroll
 if (scheduleBtn) {
