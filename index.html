@@ -312,6 +312,98 @@
         </div>
     </section>
 
+    <!-- Login/Signup Modal -->
+    <div id="authModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div class="auth-tabs">
+                <button class="tab-btn active" data-tab="phone">Phone Login</button>
+                <button class="tab-btn" data-tab="email">Email Login</button>
+            </div>
+
+            <!-- Phone Login Form -->
+            <div id="phone-tab" class="auth-form active">
+                <h3>Login with Phone</h3>
+                <p>Enter your number to receive a verification code.</p>
+                <div id="recaptcha-container"></div>
+                <div class="form-group">
+                    <input type="tel" id="login-phone" placeholder="+1 (555) 000-0000">
+                </div>
+                <button id="send-code-btn" class="btn-primary block-btn">Send Code</button>
+
+                <div id="verification-section" style="display:none;">
+                    <div class="form-group">
+                        <input type="text" id="verification-code" placeholder="Enter 6-digit code">
+                    </div>
+                    <button id="verify-code-btn" class="btn-primary block-btn">Verify Code</button>
+                </div>
+            </div>
+
+            <!-- Email Login Form -->
+            <div id="email-tab" class="auth-form">
+                <h3>Login with Email</h3>
+                <div class="form-group">
+                    <input type="email" id="login-email" placeholder="Email Address">
+                </div>
+                <div class="form-group">
+                    <input type="password" id="login-password" placeholder="Password">
+                </div>
+                <button id="email-login-btn" class="btn-primary block-btn">Login</button>
+                <div class="auth-separator">OR</div>
+                <button id="show-signup-btn" class="btn-secondary block-btn">Create Account</button>
+            </div>
+
+            <!-- Email Signup Form (Hidden initially) -->
+            <div id="signup-form" class="auth-form" style="display:none;">
+                <h3>Create Account</h3>
+                <div class="form-group">
+                    <input type="text" id="signup-name" placeholder="Full Name">
+                </div>
+                <div class="form-group">
+                    <input type="email" id="signup-email" placeholder="Email Address">
+                </div>
+                <div class="form-group">
+                    <input type="password" id="signup-password" placeholder="Password">
+                </div>
+                <button id="email-signup-btn" class="btn-primary block-btn">Sign Up</button>
+                <p class="auth-link">Already have an account? <a href="#" id="show-login-btn">Login</a></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Client Dashboard Section (Hidden by default) -->
+    <section id="dashboard" class="section dashboard-section" style="display: none;">
+        <div class="container">
+            <div class="dashboard-header">
+                <h2>Welcome, <span id="user-name">Client</span>!</h2>
+                <button id="logout-btn" class="btn-secondary">Logout</button>
+            </div>
+
+            <div class="dashboard-grid">
+                <div class="dashboard-card upcoming-cleans">
+                    <h3>Upcoming Appointments</h3>
+                    <div id="upcoming-list">
+                        <p>No upcoming appointments found.</p>
+                    </div>
+                </div>
+
+                <div class="dashboard-card quick-actions">
+                    <h3>Quick Actions</h3>
+                    <button id="dashboard-schedule-btn" class="btn-primary block-btn">Schedule New Clean</button>
+                    <!-- <button class="btn-secondary block-btn">Update Profile</button> -->
+                </div>
+
+                <div class="dashboard-card past-cleans">
+                    <h3>Cleaning History</h3>
+                    <div id="history-list">
+                        <!-- History items will be injected here -->
+                        <p>No history found.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Footer -->
     <footer>
         <div class="container footer-content">
@@ -328,6 +420,9 @@
     </footer>
 
     <script src="script.js"></script>
+    <script type="module" src="firebase-config.js"></script>
+    <script type="module" src="auth.js"></script>
+    <script type="module" src="dashboard.js"></script>
 </body>
 
 </html>
