@@ -303,7 +303,45 @@
         </div>
     </footer>
 
+    <!-- Accessibility Widget -->
+    <button id="accessibility-toggle-btn" class="accessibility-btn" aria-label="Accessibility Menu"
+        aria-expanded="false">
+        <i class="fas fa-universal-access"></i>
+    </button>
+
+    <div id="accessibility-menu" class="accessibility-menu">
+        <div class="acc-header">
+            <h3>Accessibility</h3>
+            <button id="accessibility-close-btn" class="close-acc-btn"
+                aria-label="Close Accessibility Menu">&times;</button>
+        </div>
+        <div class="acc-options">
+            <button id="acc-btn-increase-text" class="acc-option-btn">
+                <i class="fas fa-font"></i>
+                <span>Increase Text</span>
+            </button>
+            <button id="acc-btn-decrease-text" class="acc-option-btn">
+                <i class="fas fa-minus"></i>
+                <span>Decrease Text</span>
+            </button>
+            <button id="acc-btn-contrast" class="acc-option-btn">
+                <i class="fas fa-adjust"></i>
+                <span>High Contrast</span>
+            </button>
+            <button id="acc-btn-highlight" class="acc-option-btn">
+                <i class="fas fa-link"></i>
+                <span>Highlight Links</span>
+            </button>
+            <button id="acc-btn-reader" class="acc-option-btn">
+                <i class="fas fa-volume-up"></i>
+                <span>Read Page</span>
+            </button>
+        </div>
+        <button id="acc-btn-reset" class="acc-reset-btn">Reset Settings</button>
+    </div>
+
     <script src="script.js"></script>
+    <script src="accessibility.js"></script>
     <script type="module" src="firebase-config.js"></script>
     <script type="module" src="auth.js"></script>
     <script type="module" src="dashboard.js"></script>
