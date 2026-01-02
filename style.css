@@ -837,3 +837,207 @@ footer {
         padding: 20px;
     }
 }
+
+/* --- Jireh Accessibility Widget (Refactored) --- */
+
+/* Floating Toggle Button */
+#jab-toggle-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #2c3e50;
+    /* Dark Blue */
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    font-size: 28px;
+    z-index: 2147483647;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#jab-toggle-btn:hover {
+    transform: scale(1.1);
+    background-color: #1a252f;
+}
+
+/* Popup Menu */
+#jab-menu {
+    position: fixed;
+    bottom: 90px;
+    right: 20px;
+    width: 300px;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2);
+    z-index: 2147483647;
+    padding: 15px;
+    border: 1px solid #eee;
+    font-family: 'Inter', sans-serif;
+    animation: jabSlideUp 0.3s ease-out;
+}
+
+@keyframes jabSlideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.jab-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid #f0f0f0;
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+}
+
+.jab-header h3 {
+    margin: 0;
+    font-size: 1.1rem;
+    color: #333;
+}
+
+#jab-close-menu {
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: #999;
+    cursor: pointer;
+}
+
+.jab-controls {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+/* Feature Buttons */
+.jab-controls button {
+    background-color: #f8f9fa;
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    padding: 12px;
+    font-size: 0.9rem;
+    color: #333;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.2s;
+}
+
+.jab-controls button i {
+    font-size: 1.2rem;
+    color: #2c3e50;
+}
+
+.jab-controls button:hover {
+    background-color: #e2e6ea;
+    transform: translateY(-2px);
+}
+
+.jab-controls button.active {
+    background-color: #2c3e50;
+    color: #fff;
+    border-color: #2c3e50;
+}
+
+.jab-controls button.active i {
+    color: #ffd700;
+}
+
+/* Reset Button */
+#jab-btn-reset {
+    width: 100%;
+    margin-top: 15px;
+    padding: 10px;
+    background: #ff4d4d;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+#jab-btn-reset:hover {
+    background: #cc0000;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+    #jab-menu {
+        width: 90%;
+        right: 5%;
+        left: 5%;
+    }
+}
+
+/* --- Accessibility Modes --- */
+
+/* Font Sizing */
+html.jab-font-large {
+    font-size: 115% !important;
+}
+
+html.jab-font-xlarge {
+    font-size: 130% !important;
+}
+
+/* High Contrast */
+body.jab-high-contrast {
+    background-color: #000 !important;
+    color: #fff !important;
+}
+
+body.jab-high-contrast * {
+    background-color: #000 !important;
+    color: #fff !important;
+    border-color: #fff !important;
+    box-shadow: none !important;
+}
+
+body.jab-high-contrast a {
+    color: #ffff00 !important;
+    text-decoration: underline !important;
+}
+
+body.jab-high-contrast button {
+    background-color: #222 !important;
+    color: #fff !important;
+    border: 2px solid #fff !important;
+}
+
+/* Highlight Links */
+body.jab-highlight-links a {
+    background-color: #ffff00 !important;
+    color: #000 !important;
+    border-bottom: 2px solid #000 !important;
+    font-weight: bold !important;
+}
+
+/* Responsive adjustment for toolbar */
+@media (max-width: 600px) {
+    #jireh-accessibility-bar {
+        height: auto;
+        padding: 10px;
+    }
+
+    .jab-container {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+}
