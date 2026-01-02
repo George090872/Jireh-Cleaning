@@ -598,6 +598,7 @@ footer {
     margin: 10px 0;
     cursor: pointer;
 }
+
 /* Existing Styles... */
 
 /* --- Modal Styles --- */
@@ -616,19 +617,27 @@ footer {
 
 .modal-content {
     background-color: #fff;
-    margin: 10% auto; /* 15% from the top and centered */
+    margin: 10% auto;
+    /* 15% from the top and centered */
     padding: 30px;
     border-radius: 15px;
     width: 90%;
     max-width: 450px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
     position: relative;
     animation: slideDown 0.3s ease-out;
 }
 
 @keyframes slideDown {
-    from { transform: translateY(-50px); opacity: 0; }
-    to { transform: translateY(0); opacity: 1; }
+    from {
+        transform: translateY(-50px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
 }
 
 .close-modal {
@@ -699,7 +708,8 @@ footer {
     font-size: 1rem;
 }
 
-.btn-primary.block-btn, .btn-secondary.block-btn {
+.btn-primary.block-btn,
+.btn-secondary.block-btn {
     width: 100%;
     margin-top: 10px;
 }
@@ -722,8 +732,13 @@ footer {
     background-color: #eee;
 }
 
-.auth-separator::before { left: 0; }
-.auth-separator::after { right: 0; }
+.auth-separator::before {
+    left: 0;
+}
+
+.auth-separator::after {
+    right: 0;
+}
 
 .auth-link {
     text-align: center;
@@ -764,7 +779,7 @@ footer {
     background: white;
     padding: 25px;
     border-radius: 12px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
 }
 
 .dashboard-card h3 {
@@ -829,7 +844,8 @@ footer {
 .accessibility-btn {
     position: fixed;
     bottom: 20px;
-    right: 20px; /* Or left if preferred */
+    right: 20px;
+    /* Or left if preferred */
     width: 50px;
     height: 50px;
     background-color: var(--primary-color);
@@ -976,7 +992,8 @@ body.acc-high-contrast * {
 }
 
 body.acc-high-contrast a {
-    color: #ffff00 !important; /* Yellow links */
+    color: #ffff00 !important;
+    /* Yellow links */
     text-decoration: underline !important;
 }
 
@@ -1000,14 +1017,15 @@ body.acc-highlight-links a {
     padding: 2px;
 }
 
-body.acc-highlight-links .btn-primary, 
+body.acc-highlight-links .btn-primary,
 body.acc-highlight-links .btn-secondary {
     border: 3px solid #ff0 !important;
 }
 
 /* Font Resizing */
 html.acc-font-large {
-    font-size: 110%; /* Increase base size */
+    font-size: 110%;
+    /* Increase base size */
 }
 
 html.acc-font-xlarge {
@@ -1019,5 +1037,17 @@ html.acc-font-xlarge {
         width: 90%;
         right: 5%;
         left: 5%;
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
     }
 }

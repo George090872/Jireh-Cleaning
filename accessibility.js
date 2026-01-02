@@ -3,6 +3,7 @@
 (function () {
     function initAccessibility() {
         console.log('Accessibility Widget Initializing...');
+        // Debug alert removed
 
         // State
         const state = {
@@ -11,6 +12,18 @@
             highlightLinks: false,
             textReader: false
         };
+
+        // ... existing code ...
+
+        // Event Listeners
+        if (toggleBtn) {
+            toggleBtn.addEventListener('click', () => {
+                // Temporary debug alert
+                // alert("Button Clicked!"); 
+                menu.classList.toggle('active');
+                toggleBtn.setAttribute('aria-expanded', menu.classList.contains('active'));
+            });
+        }
 
         // Load preferences
         loadPreferences();
@@ -35,8 +48,23 @@
         // Event Listeners
         if (toggleBtn) {
             toggleBtn.addEventListener('click', () => {
+                // Debugging click
+                alert("Button Clicked! Attempting to open menu...");
+                console.log("Toggle button clicked");
+
                 menu.classList.toggle('active');
-                toggleBtn.setAttribute('aria-expanded', menu.classList.contains('active'));
+                const isActive = menu.classList.contains('active');
+                toggleBtn.setAttribute('aria-expanded', isActive);
+
+                // Force display
+                if (isActive) {
+                    menu.style.display = 'flex';
+                    // Temporary visibility force
+                    menu.style.opacity = '1';
+                    menu.style.zIndex = '9999999';
+                } else {
+                    menu.style.display = '';
+                }
             });
         }
 
@@ -229,4 +257,11 @@
                 window.speechSynthesis.cancel();
             }
         }
-    });
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initAccessibility);
+    } else {
+        initAccessibility();
+    }
+})();
