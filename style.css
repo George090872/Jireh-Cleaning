@@ -177,7 +177,7 @@ h3 {
     height: 90vh;
     /* Almost full height */
     min-height: 600px;
-    background: linear-gradient(rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.6)), url('https://images.unsplash.com/photo-1581578731117-104f2a41d95e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');
+    background: linear-gradient(rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.6)), url('Cleaning Picture.png');
     /* Placeholder hero image */
     background-size: cover;
     background-position: center;
