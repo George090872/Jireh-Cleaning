@@ -1041,3 +1041,90 @@ body.jab-highlight-links a {
         justify-content: center;
     }
 }
+/* Reviews Section */
+.reviews-section {
+    background-color: var(--white);
+    padding: 80px 0;
+}
+
+.reviews-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+    margin-bottom: 50px;
+}
+
+.review-card {
+    background: var(--bg-light);
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    text-align: center;
+    transition: var(--transition);
+}
+
+.review-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+}
+
+.review-stars {
+    color: #ffd700;
+    font-size: 1.2rem;
+    margin-bottom: 15px;
+}
+
+.review-text {
+    font-style: italic;
+    color: var(--text-dark);
+    margin-bottom: 20px;
+    font-size: 1.05rem;
+}
+
+.review-author {
+    font-weight: 700;
+    color: var(--primary-color);
+}
+
+/* Trust Indicators */
+.trust-indicators {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+    flex-wrap: wrap;
+    margin-top: 40px;
+}
+
+.google-review-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background-color: #fff;
+    color: #3c4043;
+    padding: 10px 20px;
+    border-radius: 24px;
+    font-weight: 500;
+    text-decoration: none;
+    box-shadow: 0 1px 3px rgba(60, 64, 67, 0.3);
+    border: 1px solid #dadce0;
+    transition: background-color 0.2s, box-shadow 0.2s;
+}
+
+.google-review-btn:hover {
+    background-color: #f8f9fa;
+    box-shadow: 0 4px 8px rgba(60, 64, 67, 0.3);
+    color: #3c4043;
+}
+
+.google-review-btn i {
+    font-size: 1.2rem;
+    /* color: #4285F4; */ /* Optional: Brand color for the 'G' icon if desired, or keep it inherit */
+}
+
+/* Center BBB Badge */
+.bbb-badge {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
