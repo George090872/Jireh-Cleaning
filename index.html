@@ -257,32 +257,10 @@
     <div id="authModal" class="modal">
         <div class="modal-content">
             <span class="close-modal">&times;</span>
-            <div class="auth-tabs">
-                <button class="tab-btn active" data-tab="phone">Phone Login</button>
-                <button class="tab-btn" data-tab="email">Email Login</button>
-            </div>
 
-            <!-- Phone Login Form -->
-            <div id="phone-tab" class="auth-form active">
-                <h3>Login with Phone</h3>
-                <p>Enter your number to receive a verification code.</p>
-                <div id="recaptcha-container"></div>
-                <div class="form-group">
-                    <input type="tel" id="login-phone" placeholder="+1 (555) 000-0000">
-                </div>
-                <button id="send-code-btn" class="btn-primary block-btn">Send Code</button>
-
-                <div id="verification-section" style="display:none;">
-                    <div class="form-group">
-                        <input type="text" id="verification-code" placeholder="Enter 6-digit code">
-                    </div>
-                    <button id="verify-code-btn" class="btn-primary block-btn">Verify Code</button>
-                </div>
-            </div>
-
-            <!-- Email Login Form -->
-            <div id="email-tab" class="auth-form">
-                <h3>Login with Email</h3>
+            <!-- Email Login Form (Default) -->
+            <div id="email-tab" class="auth-form" style="display: block;">
+                <h3>Client Login</h3>
                 <div class="form-group">
                     <input type="email" id="login-email" placeholder="Email Address">
                 </div>

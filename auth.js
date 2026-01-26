@@ -1,10 +1,9 @@
-import { auth, RecaptchaVerifier, signInWithPhoneNumber, signInWithEmailAndPassword, createUserWithEmailAndPassword, updateProfile, onAuthStateChanged, signOut, db, doc, collection, addDoc, query, where, getDocs } from "./firebase-config.js";
+import { auth, signInWithEmailAndPassword, createUserWithEmailAndPassword, updateProfile, onAuthStateChanged, signOut, db, doc, collection, addDoc, query, where, getDocs } from "./firebase-config.js";
 
 // DOM Elements
 const authModal = document.getElementById("authModal");
 const closeModal = document.querySelector(".close-modal");
-const tabBtns = document.querySelectorAll(".tab-btn");
-const phoneTab = document.getElementById("phone-tab");
+// Tabs removed
 const emailTab = document.getElementById("email-tab");
 const signupForm = document.getElementById("signup-form");
 const showSignupBtn = document.getElementById("show-signup-btn");
@@ -12,34 +11,16 @@ const showLoginBtn = document.getElementById("show-login-btn");
 const clientLoginLink = document.querySelector('a[href="portal.html"]'); // Existing link in nav
 
 // Buttons
-const sendCodeBtn = document.getElementById("send-code-btn");
-const verifyCodeBtn = document.getElementById("verify-code-btn");
 const emailLoginBtn = document.getElementById("email-login-btn");
 const emailSignupBtn = document.getElementById("email-signup-btn");
 const logoutBtn = document.getElementById("logout-btn");
 
 // Inputs
-const loginPhoneInput = document.getElementById("login-phone");
-const verificationCodeInput = document.getElementById("verification-code");
 const loginEmailInput = document.getElementById("login-email");
 const loginPasswordInput = document.getElementById("login-password");
 const signupNameInput = document.getElementById("signup-name");
 const signupEmailInput = document.getElementById("signup-email");
 const signupPasswordInput = document.getElementById("signup-password");
-
-// Global State
-let confirmationResult = null;
-
-// Initialize Recaptcha
-window.recaptchaVerifier = new RecaptchaVerifier(auth, 'recaptcha-container', {
-    'size': 'normal',
-    'callback': (response) => {
-        // reCAPTCHA solved, allow signInWithPhoneNumber.
-    },
-    'expired-callback': () => {
-        // Response expired. Ask user to solve reCAPTCHA again.
-    }
-});
 
 // Event Listeners
 
@@ -70,27 +51,6 @@ window.addEventListener("click", (e) => {
     }
 });
 
-// Tab Switching
-tabBtns.forEach(btn => {
-    btn.addEventListener("click", () => {
-        // Remove active class from all
-        tabBtns.forEach(b => b.classList.remove("active"));
-        document.querySelectorAll(".auth-form").forEach(f => f.classList.remove("active"));
-        signupForm.style.display = "none"; // Hide signup if open
-
-        // Add active to clicked
-        btn.classList.add("active");
-        const tabId = btn.getAttribute("data-tab");
-        if (tabId === "phone") {
-            phoneTab.classList.add("active");
-            emailTab.classList.remove("active");
-        } else {
-            emailTab.classList.add("active");
-            phoneTab.classList.remove("active");
-        }
-    });
-});
-
 // Toggle Signup/Login
 showSignupBtn.addEventListener("click", () => {
     emailTab.style.display = "none";
@@ -101,53 +61,6 @@ showLoginBtn.addEventListener("click", (e) => {
     e.preventDefault();
     signupForm.style.display = "none";
     emailTab.style.display = "block";
-});
-
-// --- Phone Auth ---
-
-sendCodeBtn.addEventListener("click", async () => {
-    const phoneNumber = loginPhoneInput.value;
-    const appVerifier = window.recaptchaVerifier;
-
-    if (!phoneNumber) {
-        alert("Please enter a phone number.");
-        return;
-    }
-
-    try {
-        confirmationResult = await signInWithPhoneNumber(auth, phoneNumber, appVerifier);
-        // SMS sent. Prompt user to type the code from the message.
-        document.getElementById("verification-section").style.display = "block";
-        sendCodeBtn.style.display = "none";
-        alert("Verification code sent!");
-    } catch (error) {
-        console.error("Error sending code:", error);
-        alert("Error sending code. Please check the number and try again.");
-        window.recaptchaVerifier.render().then(function (widgetId) {
-            grecaptcha.reset(widgetId);
-        });
-    }
-});
-
-verifyCodeBtn.addEventListener("click", async () => {
-    const code = verificationCodeInput.value;
-    if (!code) {
-        alert("Please enter both verification code.");
-        return;
-    }
-
-    try {
-        const result = await confirmationResult.confirm(code);
-        const user = result.user;
-        console.log("Phone login success:", user);
-        authModal.style.display = "none";
-        // Check if user has a profile doc, if not create one? 
-        // For phone auth, we might not have a name immediately if new.
-        // We can prompt for name later or just let them be "Client".
-    } catch (error) {
-        console.error("Error verifying code:", error);
-        alert("Invalid code. Please try again.");
-    }
 });
 
 // --- Email Auth ---
