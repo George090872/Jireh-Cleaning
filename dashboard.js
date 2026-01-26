@@ -181,6 +181,11 @@ let pendingCancellationId = null;
 
 // Listen for Tally Form Submission
 window.addEventListener('message', async (e) => {
+    // DEBUG: Log all Tally events to see what we get
+    if (e.data && (e.data.event || typeof e.data === 'string')) {
+        console.log("Window Message Received:", e.data);
+    }
+
     // Tally sends 'Tally.FormSubmitted' when a form is submitted
     if (e.data && e.data.event === 'Tally.FormSubmitted' && pendingCancellationId) {
         console.log("Tally Cancellation Form Submitted. Deleting appointment:", pendingCancellationId);
