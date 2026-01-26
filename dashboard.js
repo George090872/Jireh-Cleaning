@@ -1,4 +1,4 @@
-import { db, collection, addDoc, query, where, getDocs, orderBy, deleteDoc, doc, auth } from "./firebase-config.js";
+import { db, collection, addDoc, query, where, getDocs, orderBy, deleteDoc, doc, auth, getDoc } from "./firebase-config.js";
 
 const upcomingList = document.getElementById("upcoming-list");
 const historyList = document.getElementById("history-list");
@@ -36,7 +36,7 @@ function checkAdmin(user) {
 // Admin Assign Button Logic
 if (adminAssignBtn) {
     adminAssignBtn.addEventListener("click", async () => {
-        const clientEmail = adminClientEmail.value.trim();
+        const clientEmail = adminClientEmail.value.trim().toLowerCase(); // Normalize email
         const date = adminCleanDate.value;
         const time = adminCleanTime.value;
         const serviceType = adminServiceType.value;
@@ -80,6 +80,7 @@ if (adminAssignBtn) {
 }
 
 async function loadAppointments(user) {
+    console.log("Loading appointments for:", user.email); // DEBUG
     if (!user) return;
 
     // Query appointments where clientEmail matches the logged-in user's email
@@ -132,7 +133,13 @@ async function loadAppointments(user) {
 
     } catch (error) {
         console.error("Error loading appointments:", error);
-        upcomingList.innerHTML = "<p>Error loading appointments.</p>";
+
+        // Detailed error for missing index
+        if (error.message.includes("index")) {
+            upcomingList.innerHTML = `<p style="color:red; font-size: 0.9em;"><strong>Setup Required:</strong> This query requires a Firestore Index. <br>Please open the browser console (F12) and click the link provided in the error message to create it.</p>`;
+        } else {
+            upcomingList.innerHTML = `<p>Error loading appointments: ${error.message}</p>`;
+        }
     }
 }
 
@@ -171,13 +178,56 @@ function isFuture(dateString) {
 
 async function cancelAppointment(id) {
     try {
-        await deleteDoc(doc(db, "appointments", id));
-        alert("Appointment cancelled.");
+        const apptRef = doc(db, "appointments", id);
+
+        // 1. Fetch details for email
+        const apptSnap = await getDoc(apptRef);
+        if (!apptSnap.exists()) {
+            alert("Appointment not found.");
+            return;
+        }
+        const data = apptSnap.data();
+
+        // 2. Send Notification Email
+        // Using FormSubmit.co AJAX API
+        try {
+            await fetch("https://formsubmit.co/ajax/jirehinc81@gmail.com", {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify({
+                    _subject: `CANCELLATION: ${data.serviceType} on ${data.date}`,
+                    message: `
+                        The following appointment has been CANCELLED by the client:
+                        
+                        Client: ${data.clientEmail}
+                        Service: ${data.serviceType}
+                        Date: ${data.date}
+                        Time: ${data.time}
+                        Frequency: ${data.frequency}
+                        
+                        Please update your schedule.
+                    `
+                })
+            });
+            console.log("Cancellation email sent.");
+        } catch (emailError) {
+            console.error("Failed to send cancellation email:", emailError);
+            // We continue to delete even if email fails, but maybe log it.
+        }
+
+        // 3. Delete Document
+        await deleteDoc(apptRef);
+
+        alert("Appointment cancelled. An email notification has been sent to the admin.");
+
         // Refresh
         const user = auth.currentUser;
         if (user) loadAppointments(user);
     } catch (error) {
         console.error("Error cancelling:", error);
-        alert("Failed to cancel.");
+        alert("Failed to cancel: " + error.message);
     }
 }
