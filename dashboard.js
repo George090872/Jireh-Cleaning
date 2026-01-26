@@ -176,58 +176,73 @@ function isFuture(dateString) {
     return date >= today;
 }
 
+// Tally Integration State
+let pendingCancellationId = null;
+
+// Listen for Tally Form Submission
+window.addEventListener('message', async (e) => {
+    // Tally sends 'Tally.FormSubmitted' when a form is submitted
+    if (e.data && e.data.event === 'Tally.FormSubmitted' && pendingCancellationId) {
+        console.log("Tally Cancellation Form Submitted. Deleting appointment:", pendingCancellationId);
+
+        try {
+            // Delete the appointment now that we have a reason/confirmation
+            await deleteDoc(doc(db, "appointments", pendingCancellationId));
+            alert("Appointment cancelled successfully.");
+
+            // Reset state
+            pendingCancellationId = null;
+
+            // Refresh list
+            const user = auth.currentUser;
+            if (user) loadAppointments(user);
+
+            // Close Tally Popup (if it doesn't close itself, but usually it does or user closes it)
+            if (typeof Tally !== 'undefined') Tally.closePopup();
+
+        } catch (error) {
+            console.error("Error finalizing cancellation:", error);
+            alert("Error cancelling appointment: " + error.message);
+        }
+    }
+});
+
 async function cancelAppointment(id) {
+    // Store ID to delete AFTER form submission
+    pendingCancellationId = id;
+
+    // Fetch details to pass to Tally (so you know WHAT was cancelled)
     try {
         const apptRef = doc(db, "appointments", id);
-
-        // 1. Fetch details for email
         const apptSnap = await getDoc(apptRef);
+
         if (!apptSnap.exists()) {
             alert("Appointment not found.");
             return;
         }
         const data = apptSnap.data();
 
-        // 2. Send Notification Email
-        // Using FormSubmit.co AJAX API
-        try {
-            await fetch("https://formsubmit.co/ajax/jirehinc81@gmail.com", {
-                method: "POST",
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json'
-                },
-                body: JSON.stringify({
-                    _subject: `CANCELLATION: ${data.serviceType} on ${data.date}`,
-                    message: `
-                        The following appointment has been CANCELLED by the client:
-                        
-                        Client: ${data.clientEmail}
-                        Service: ${data.serviceType}
-                        Date: ${data.date}
-                        Time: ${data.time}
-                        Frequency: ${data.frequency}
-                        
-                        Please update your schedule.
-                    `
-                })
+        // Open Tally Popup
+        // Form ID: EkxYxl
+        // Passing hidden fields for context
+        if (typeof Tally !== 'undefined') {
+            Tally.openPopup('EkxYxl', {
+                layout: 'modal',
+                width: 500,
+                hiddenFields: {
+                    appt_id: id,
+                    client_email: data.clientEmail || "",
+                    service_type: data.serviceType || "",
+                    date: data.date || ""
+                }
             });
-            console.log("Cancellation email sent.");
-        } catch (emailError) {
-            console.error("Failed to send cancellation email:", emailError);
-            // We continue to delete even if email fails, but maybe log it.
+        } else {
+            console.error("Tally script not loaded.");
+            alert("Cancellation form could not be loaded. Please try again.");
         }
 
-        // 3. Delete Document
-        await deleteDoc(apptRef);
-
-        alert("Appointment cancelled. An email notification has been sent to the admin.");
-
-        // Refresh
-        const user = auth.currentUser;
-        if (user) loadAppointments(user);
     } catch (error) {
-        console.error("Error cancelling:", error);
-        alert("Failed to cancel: " + error.message);
+        console.error("Error prepping cancellation:", error);
+        alert("Error: " + error.message);
     }
 }
