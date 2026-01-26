@@ -181,13 +181,27 @@ let pendingCancellationId = null;
 
 // Listen for Tally Form Submission
 window.addEventListener('message', async (e) => {
-    // DEBUG: Log all Tally events to see what we get
-    if (e.data && (e.data.event || typeof e.data === 'string')) {
-        console.log("Window Message Received:", e.data);
+    let data = e.data;
+
+    // 1. Try to parse if it's a string (fixes issue where event is a JSON string)
+    if (typeof data === 'string') {
+        try {
+            // Ignore iFrameResizer messages which are just strings but not JSON
+            if (data.includes('[iFrameSizer]')) return;
+            data = JSON.parse(data);
+        } catch (err) {
+            // Not valid JSON, ignore
+            return;
+        }
     }
 
-    // Tally sends 'Tally.FormSubmitted' when a form is submitted
-    if (e.data && e.data.event === 'Tally.FormSubmitted' && pendingCancellationId) {
+    // DEBUG: See what we parsed
+    if (data && data.event) {
+        console.log("Parsed Tally Event:", data.event);
+    }
+
+    // 2. Check Event
+    if (data && data.event === 'Tally.FormSubmitted' && pendingCancellationId) {
         console.log("Tally Cancellation Form Submitted. Deleting appointment:", pendingCancellationId);
 
         try {
@@ -202,7 +216,7 @@ window.addEventListener('message', async (e) => {
             const user = auth.currentUser;
             if (user) loadAppointments(user);
 
-            // Close Tally Popup (if it doesn't close itself, but usually it does or user closes it)
+            // Close Tally Popup
             if (typeof Tally !== 'undefined') Tally.closePopup();
 
         } catch (error) {
