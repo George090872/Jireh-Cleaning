@@ -155,7 +155,7 @@
                 <h2 class="section-title">About Us</h2>
                 <p>We’re a fully insured, detail‑driven cleaning team serving Ottawa and the surrounding areas. At Jireh
                     Cleaning, we specialize in Ottawa house cleaning, deep clean services, weekly cleaning, and move‑out
-                    cleaning Ottawa residents can rely on.</p>
+                    cleaning Ottawa rabaseesidents can rely on.</p>
                 <p>We treat every space like it’s our own—whether it’s a weekly refresh or a deep seasonal clean. Our
                     professional cleaners in Ottawa bring care, thoroughness, and consistency to every job. As an
                     insured cleaning team in Ottawa, we make sure you always come home to a spotless, refreshed space.
@@ -328,7 +328,49 @@
         <div class="container">
             <div class="dashboard-header">
                 <h2>Welcome, <span id="user-name">Client</span>!</h2>
-                <button id="logout-btn" class="btn-secondary">Logout</button>
+                <div class="header-actions">
+                    <button id="logout-btn" class="btn-secondary">Logout</button>
+                </div>
+            </div>
+
+            <!-- Admin Panel (Hidden by default) -->
+            <div id="admin-panel" class="dashboard-card admin-panel"
+                style="display: none; margin-bottom: 20px; border: 2px solid #4a90e2;">
+                <h3><i class="fas fa-user-shield"></i> Admin Panel: Assign Clean</h3>
+                <div class="admin-form-grid"
+                    style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top: 15px;">
+                    <div class="form-group">
+                        <label for="admin-client-email">Client Email</label>
+                        <input type="email" id="admin-client-email" placeholder="client@example.com">
+                    </div>
+                    <div class="form-group">
+                        <label for="admin-clean-date">Date</label>
+                        <input type="date" id="admin-clean-date">
+                    </div>
+                    <div class="form-group">
+                        <label for="admin-clean-time">Time</label>
+                        <input type="time" id="admin-clean-time">
+                    </div>
+                    <div class="form-group">
+                        <label for="admin-service-type">Service Type</label>
+                        <select id="admin-service-type">
+                            <option value="Standard Clean">Standard Clean</option>
+                            <option value="Deep Clean">Deep Clean</option>
+                            <option value="Move In/Out">Move In/Out</option>
+                            <option value="Commercial">Commercial</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="admin-frequency">Frequency</label>
+                        <select id="admin-frequency">
+                            <option value="One-Time">One-Time</option>
+                            <option value="Weekly">Weekly</option>
+                            <option value="Bi-Weekly">Bi-Weekly</option>
+                            <option value="Monthly">Monthly</option>
+                        </select>
+                    </div>
+                    <button id="admin-assign-btn" class="btn-primary" style="align-self: end;">Assign Clean</button>
+                </div>
             </div>
 
             <div class="dashboard-grid">
