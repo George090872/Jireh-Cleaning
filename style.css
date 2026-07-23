@@ -202,6 +202,394 @@ h3 {
     margin-bottom: 40px;
 }
 
+/* Reviews Section */
+.reviews-section {
+    background-color: var(--white);
+    padding: 80px 0;
+}
+
+.reviews-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+    margin-bottom: 50px;
+}
+
+.review-stars {
+    color: #ffd700;
+    font-size: 1.2rem;
+    margin-bottom: 15px;
+}
+
+.review-author {
+    font-weight: 700;
+    color: var(--primary-color);
+}
+
+/* Trust Indicators */
+.trust-indicators {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+    flex-wrap: wrap;
+    margin-top: 40px;
+}
+
+.google-review-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background-color: #fff;
+    color: #3c4043;
+    padding: 10px 20px;
+    border-radius: 24px;
+    font-weight: 500;
+    text-decoration: none;
+    box-shadow: 0 1px 3px rgba(60, 64, 67, 0.3);
+    border: 1px solid #dadce0;
+    transition: background-color 0.2s, box-shadow 0.2s;
+}
+
+.google-review-btn:hover {
+    background-color: #f8f9fa;
+    box-shadow: 0 4px 8px rgba(60, 64, 67, 0.3);
+    color: #3c4043;
+}
+
+.google-review-btn i {
+    font-size: 1.2rem;
+}
+
+/* Center BBB Badge */
+.bbb-badge {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* =============================================
+   GOOGLE REVIEWS SLIDESHOW — RESPONSIVE
+   ============================================= */
+
+/* Summary badge */
+.google-summary-badge {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 20px;
+    background: #fff;
+    border: 1px solid #dadce0;
+    border-radius: 16px;
+    padding: 20px 30px;
+    margin-bottom: 40px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+}
+
+.google-logo-box {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: #3c4043;
+}
+
+.google-logo-box .fab.fa-google {
+    font-size: 1.6rem;
+    color: #4285F4;
+}
+
+.google-rating-score {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.score-num {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--primary-color);
+}
+
+.google-rating-score .stars {
+    color: #ffd700;
+    font-size: 1.1rem;
+}
+
+.review-count {
+    font-size: 0.9rem;
+    color: #666;
+}
+
+.btn-google-maps {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background-color: var(--primary-color);
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 24px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-decoration: none;
+    transition: opacity 0.2s;
+}
+
+.btn-google-maps:hover {
+    opacity: 0.85;
+    color: #fff;
+}
+
+/* Slideshow wrapper */
+.reviews-slideshow-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+/* Arrow buttons */
+.slideshow-btn {
+    flex-shrink: 0;
+    background: var(--primary-color);
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    width: 44px;
+    height: 44px;
+    font-size: 1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    transition: background 0.2s, transform 0.2s;
+    z-index: 2;
+}
+
+.slideshow-btn:hover {
+    background: #0d2a52;
+    transform: scale(1.08);
+}
+
+/* Track container — clips overflow */
+.reviews-slideshow-track-container {
+    flex: 1;
+    overflow: hidden;
+}
+
+/* The scrolling track */
+.reviews-slideshow-track {
+    display: flex;
+    gap: 24px;
+    transition: transform 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: transform;
+}
+
+/* Each card — width driven by CSS variable --cards-visible */
+.review-card {
+    flex-shrink: 0;
+    width: calc((100% - (var(--cards-visible, 3) - 1) * 24px) / var(--cards-visible, 3));
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+    padding: 0;
+    text-align: left;
+    transition: box-shadow 0.3s, transform 0.3s;
+    cursor: pointer;
+}
+
+.review-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 10px 28px rgba(0,0,0,0.13);
+}
+
+/* Clickable link wrapper inside card */
+.review-card-link {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 24px;
+    text-decoration: none;
+    color: inherit;
+    border-radius: 16px;
+}
+
+/* Card header: avatar + name + google icon */
+.review-card-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 14px;
+}
+
+.reviewer-avatar {
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1.2rem;
+    color: #fff;
+    flex-shrink: 0;
+}
+
+.avatar-purple { background: #7c3aed; }
+.avatar-red    { background: #dc2626; }
+.avatar-blue   { background: #2563eb; }
+.avatar-green  { background: #16a34a; }
+.avatar-orange { background: #ea580c; }
+
+.reviewer-info {
+    flex: 1;
+}
+
+.reviewer-info h4 {
+    margin: 0 0 2px;
+    font-size: 1rem;
+    color: var(--text-dark);
+}
+
+.reviewer-badge {
+    font-size: 0.78rem;
+    color: #666;
+}
+
+.reviewer-badge .fab.fa-google {
+    color: #4285F4;
+    margin-right: 3px;
+}
+
+.google-card-icon {
+    font-size: 1.3rem;
+    color: #4285F4;
+    flex-shrink: 0;
+}
+
+/* Stars + date */
+.review-rating {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+}
+
+.review-rating .stars {
+    color: #ffd700;
+    font-size: 0.95rem;
+}
+
+.review-date {
+    font-size: 0.82rem;
+    color: #888;
+}
+
+/* Review body text */
+.review-card .review-text {
+    font-style: italic;
+    color: #444;
+    font-size: 0.97rem;
+    line-height: 1.65;
+    flex: 1;
+    margin-bottom: 16px;
+    text-align: left;
+}
+
+/* Footer link */
+.review-footer {
+    margin-top: auto;
+    padding-top: 10px;
+    border-top: 1px solid #f0f0f0;
+}
+
+.maps-link-text {
+    font-size: 0.82rem;
+    color: var(--primary-color);
+    font-weight: 600;
+}
+
+.maps-link-text i {
+    font-size: 0.75rem;
+    margin-left: 3px;
+}
+
+/* Dot pagination */
+.slideshow-dots {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 28px;
+}
+
+.slideshow-dots .dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #ccc;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.3s;
+    border: none;
+    padding: 0;
+}
+
+.slideshow-dots .dot.active {
+    background: var(--primary-color);
+    transform: scale(1.3);
+}
+
+/* =============================================
+   RESPONSIVE BREAKPOINTS FOR REVIEW CARDS
+   ============================================= */
+
+/* Desktop: 3 cards visible */
+@media (min-width: 1024px) {
+    .reviews-slideshow-track-container,
+    .review-card {
+        --cards-visible: 3;
+    }
+}
+
+/* Tablet: 2 cards visible */
+@media (min-width: 600px) and (max-width: 1023px) {
+    .reviews-slideshow-track-container,
+    .review-card {
+        --cards-visible: 2;
+    }
+    .slideshow-btn {
+        width: 38px;
+        height: 38px;
+        font-size: 0.9rem;
+    }
+}
+
+/* Phone: 1 card visible */
+@media (max-width: 599px) {
+    .reviews-slideshow-track-container,
+    .review-card {
+        --cards-visible: 1;
+    }
+    .review-card-link {
+        padding: 18px;
+    }
+    .slideshow-btn {
+        width: 34px;
+        height: 34px;
+        font-size: 0.85rem;
+    }
+    .google-summary-badge {
+        padding: 16px 18px;
+        gap: 12px;
+    }
+    .score-num {
+        font-size: 1.6rem;
+    }
+}
+
 /* Services Section */
 .services-section {
     background-color: var(--bg-light);
@@ -1040,91 +1428,4 @@ body.jab-highlight-links a {
         flex-wrap: wrap;
         justify-content: center;
     }
-}
-/* Reviews Section */
-.reviews-section {
-    background-color: var(--white);
-    padding: 80px 0;
-}
-
-.reviews-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 30px;
-    margin-bottom: 50px;
-}
-
-.review-card {
-    background: var(--bg-light);
-    padding: 30px;
-    border-radius: 12px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-    text-align: center;
-    transition: var(--transition);
-}
-
-.review-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
-}
-
-.review-stars {
-    color: #ffd700;
-    font-size: 1.2rem;
-    margin-bottom: 15px;
-}
-
-.review-text {
-    font-style: italic;
-    color: var(--text-dark);
-    margin-bottom: 20px;
-    font-size: 1.05rem;
-}
-
-.review-author {
-    font-weight: 700;
-    color: var(--primary-color);
-}
-
-/* Trust Indicators */
-.trust-indicators {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 40px;
-    flex-wrap: wrap;
-    margin-top: 40px;
-}
-
-.google-review-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    background-color: #fff;
-    color: #3c4043;
-    padding: 10px 20px;
-    border-radius: 24px;
-    font-weight: 500;
-    text-decoration: none;
-    box-shadow: 0 1px 3px rgba(60, 64, 67, 0.3);
-    border: 1px solid #dadce0;
-    transition: background-color 0.2s, box-shadow 0.2s;
-}
-
-.google-review-btn:hover {
-    background-color: #f8f9fa;
-    box-shadow: 0 4px 8px rgba(60, 64, 67, 0.3);
-    color: #3c4043;
-}
-
-.google-review-btn i {
-    font-size: 1.2rem;
-    /* color: #4285F4; */ /* Optional: Brand color for the 'G' icon if desired, or keep it inherit */
-}
-
-/* Center BBB Badge */
-.bbb-badge {
-    display: flex;
-    justify-content: center;
-    align-items: center;
 }

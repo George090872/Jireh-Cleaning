@@ -167,4 +167,106 @@ document.addEventListener('DOMContentLoaded', () => {
             }, 1000);
         });
     }
+
+    // Reviews Slideshow (Responsive)
+    const track = document.getElementById('reviewsTrack');
+    const prevBtn = document.getElementById('prevReviewBtn');
+    const nextBtn = document.getElementById('nextReviewBtn');
+    const dotsContainer = document.getElementById('reviewsDots');
+
+    if (track && prevBtn && nextBtn && dotsContainer) {
+        const cards = Array.from(track.querySelectorAll('.review-card'));
+        let currentIndex = 0;
+
+        // Determine how many cards are visible based on viewport width
+        function getCardsVisible() {
+            if (window.innerWidth >= 1024) return 3;
+            if (window.innerWidth >= 600) return 2;
+            return 1;
+        }
+
+        // Set the CSS custom property on each card so widths are computed correctly
+        function setCardWidths() {
+            const visible = getCardsVisible();
+            const gap = 24; // px — must match the CSS gap value
+            const containerWidth = track.parentElement.offsetWidth;
+            const cardWidth = (containerWidth - (visible - 1) * gap) / visible;
+            cards.forEach(card => {
+                card.style.width = cardWidth + 'px';
+                card.style.flexShrink = '0';
+            });
+        }
+
+        // Total number of "pages" (steps) you can scroll to
+        function getTotalSteps() {
+            return Math.ceil(cards.length / getCardsVisible());
+        }
+
+        // Build / rebuild the dot indicators
+        function buildDots() {
+            dotsContainer.innerHTML = '';
+            const steps = getTotalSteps();
+            for (let i = 0; i < steps; i++) {
+                const dot = document.createElement('button');
+                dot.classList.add('dot');
+                dot.setAttribute('aria-label', 'Go to review page ' + (i + 1));
+                if (i === 0) dot.classList.add('active');
+                dot.addEventListener('click', () => goTo(i));
+                dotsContainer.appendChild(dot);
+            }
+        }
+
+        // Move the track to the given step index
+        function goTo(index) {
+            const steps = getTotalSteps();
+            // Clamp
+            currentIndex = Math.max(0, Math.min(index, steps - 1));
+
+            const visible = getCardsVisible();
+            const gap = 24;
+            const cardWidth = cards[0] ? cards[0].offsetWidth : 0;
+            const offset = currentIndex * visible * (cardWidth + gap);
+            track.style.transform = `translateX(-${offset}px)`;
+
+            // Update dots
+            const dots = dotsContainer.querySelectorAll('.dot');
+            dots.forEach((d, i) => d.classList.toggle('active', i === currentIndex));
+
+            // Disable/enable buttons at boundaries
+            prevBtn.disabled = currentIndex === 0;
+            nextBtn.disabled = currentIndex >= steps - 1;
+            prevBtn.style.opacity = prevBtn.disabled ? '0.4' : '1';
+            nextBtn.style.opacity = nextBtn.disabled ? '0.4' : '1';
+        }
+
+        prevBtn.addEventListener('click', () => goTo(currentIndex - 1));
+        nextBtn.addEventListener('click', () => goTo(currentIndex + 1));
+
+        // Touch / swipe support for mobile
+        let touchStartX = 0;
+        track.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, { passive: true });
+        track.addEventListener('touchend', e => {
+            const diff = touchStartX - e.changedTouches[0].clientX;
+            if (Math.abs(diff) > 50) {
+                if (diff > 0) goTo(currentIndex + 1);
+                else goTo(currentIndex - 1);
+            }
+        }, { passive: true });
+
+        // Re-layout on resize (debounced)
+        let resizeTimer;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(() => {
+                setCardWidths();
+                buildDots();
+                goTo(0); // reset to start on resize
+            }, 150);
+        });
+
+        // Initial render
+        setCardWidths();
+        buildDots();
+        goTo(0);
+    }
 });
