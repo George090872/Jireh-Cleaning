@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Client Portal | Jireh Cleaning</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+
+<body class="portal-body">
+
+    <!-- Simple Nav -->
+    <nav class="navbar">
+        <div class="container nav-container">
+            <a href="index.html" class="logo">
+                <img src="logo.png" alt="Jireh Cleaning Logo">
+            </a>
+            <a href="index.html" class="btn-primary-small">Back to Website</a>
+        </div>
+    </nav>
+
+    <div class="container portal-container">
+
+        <!-- Login View -->
+        <div id="loginView" class="portal-card login-card">
+            <h2><i class="fas fa-user-circle"></i> Client Login</h2>
+            <p>Access your dashboard to schedule, pay, and review.</p>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" required placeholder="client@example.com">
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" required placeholder="********">
+                </div>
+                <button type="submit" class="btn-primary block-btn">Log In</button>
+                <p style="margin-top:15px; font-size:0.9rem; text-align:center;">Don't have an account? <a
+                        href="index.html#contact" style="color:var(--primary-color);">Contact us</a></p>
+            </form>
+        </div>
+
+        <!-- Dashboard View (Hidden by default) -->
+        <div id="dashboardView" class="dashboard-grid" style="display: none;">
+
+            <!-- Sidebar / Welcome -->
+            <div class="portal-card welcome-card">
+                <h3>Welcome back, Sarah!</h3>
+                <p>Member since 2024</p>
+                <div class="balance-box">
+                    <span>Outstanding Balance</span>
+                    <strong style="color: #dc3545;">$150.00</strong>
+                    <button class="btn-primary-small"
+                        onclick="alert('Proceeding to Secure Payment Gateway... (Prototype)')">Pay Now</button>
+                </div>
+            </div>
+
+            <!-- Upcoming List -->
+            <div class="portal-card schedule-card">
+                <h3><i class="fas fa-calendar-alt"></i> Upcoming Cleans</h3>
+                <div class="job-item">
+                    <div class="job-date">
+                        <strong>DEC</strong>
+                        <span>15</span>
+                    </div>
+                    <div class="job-details">
+                        <h4>Standard Clean</h4>
+                        <p>10:00 AM - 2:00 PM</p>
+                    </div>
+                    <div class="job-actions">
+                        <button class="btn-secondary" style="padding: 5px 10px; font-size: 0.8rem;"
+                            onclick="alert('Reschedule request sent!')">Reschedule</button>
+                        <button class="btn-danger-link" onclick="alert('Cancel request sent!')"><i
+                                class="fas fa-times"></i></button>
+                    </div>
+                </div>
+                <button class="btn-primary block-btn" style="margin-top: 20px;"
+                    onclick="alert('Opening Scheduling Calendar... (Prototype)')"><i class="fas fa-plus"></i> Schedule
+                    New Clean</button>
+            </div>
+
+            <!-- Feedback -->
+            <div class="portal-card feedback-card">
+                <h3><i class="fas fa-star"></i> Rate Last Clean</h3>
+                <p>How was your clean on Dec 1st?</p>
+                <div class="star-rating">
+                    <i class="far fa-star" onclick="this.classList.toggle('fas');this.classList.toggle('far')"></i>
+                    <i class="far fa-star" onclick="this.classList.toggle('fas');this.classList.toggle('far')"></i>
+                    <i class="far fa-star" onclick="this.classList.toggle('fas');this.classList.toggle('far')"></i>
+                    <i class="far fa-star" onclick="this.classList.toggle('fas');this.classList.toggle('far')"></i>
+                    <i class="far fa-star" onclick="this.classList.toggle('fas');this.classList.toggle('far')"></i>
+                </div>
+                <textarea placeholder="Leave a comment for your cleaner..." rows="3"
+                    style="width:100%; margin-top:10px; padding:10px; border-radius:5px; border:1px solid #ddd;"></textarea>
+                <button class="btn-secondary block-btn" onclick="alert('Thank you for your feedback!')">Submit
+                    Review</button>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
